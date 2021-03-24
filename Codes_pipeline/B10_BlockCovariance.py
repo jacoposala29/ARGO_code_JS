@@ -64,37 +64,36 @@ else:
 
 # salvare DFS poi creo B10_2
 
-time.sleep(5)
-
-for (df, sub) in DFS:
-    print(sub)
-    # Saves file
-    pkl.dump(df, open(f'{data_dir}/HurricaneVariableCovDF_Subset{sub}.pkl', 'wb'))
-    
-    # Import directions 
-    results_dir = folder2use + '/Outputs'
-    window_size_gp = 5
-    DEPTH_IDX = int((grid_end - grid_start)/ grid_stride+1)
-    
-    depth_idx = 1
-    before_pids = np.sort(df['before_pid'].unique())
-    
-    MLE = pkl.load(open(f'{results_dir}/MleCoefDF_{window_size_gp}.pkl', 'rb'))
-    
-    df_list = [df[df['before_pid']==bp] for bp in before_pids]
-    for depth_idx in range(DEPTH_IDX):
-        print(depth_idx)
-        cov = partial(covariance_matrix, df_param=MLE, depth_idx=depth_idx)
-    
-        with multiprocessing.Pool(processes=CPU_COUNT) as pool:
-            covmat_list = pool.map(cov, df_list)
-    
-        with multiprocessing.Pool(processes=CPU_COUNT) as pool:
-            premat_list = pool.map(np.linalg.inv, covmat_list)
-    
-        C = sps.block_diag(covmat_list)
-        P = sps.block_diag(premat_list)
-        pkl.dump(C, open(f'{results_dir}/BlockCovmat_{window_size_gp}_'
-                         f'{(depth_idx+1)*10:03d}{sub}.pkl', 'wb'))
-        pkl.dump(P, open(f'{results_dir}/BlockPremat_{window_size_gp}_'
-                         f'{(depth_idx+1)*10:03d}{sub}.pkl', 'wb'))
+if __name__ == '__main__':  
+    for (df, sub) in DFS:
+        print(sub)
+        # Saves file
+        pkl.dump(df, open(f'{data_dir}/HurricaneVariableCovDF_Subset{sub}.pkl', 'wb'))
+        
+        # Import directions 
+        results_dir = folder2use + '/Outputs'
+        window_size_gp = 5
+        DEPTH_IDX = int((grid_end - grid_start)/ grid_stride+1)
+        
+        depth_idx = 1
+        before_pids = np.sort(df['before_pid'].unique())
+        
+        MLE = pkl.load(open(f'{results_dir}/MleCoefDF_{window_size_gp}.pkl', 'rb'))
+        
+        df_list = [df[df['before_pid']==bp] for bp in before_pids]
+        for depth_idx in range(DEPTH_IDX):
+            print(depth_idx)
+            cov = partial(covariance_matrix, df_param=MLE, depth_idx=depth_idx)
+        
+            with multiprocessing.Pool(processes=CPU_COUNT) as pool:
+                covmat_list = pool.map(cov, df_list)
+        
+            with multiprocessing.Pool(processes=CPU_COUNT) as pool:
+                premat_list = pool.map(np.linalg.inv, covmat_list)
+        
+            C = sps.block_diag(covmat_list)
+            P = sps.block_diag(premat_list)
+            pkl.dump(C, open(f'{results_dir}/BlockCovmat_{window_size_gp}_'
+                             f'{(depth_idx+1)*10:03d}{sub}.pkl', 'wb'))
+            pkl.dump(P, open(f'{results_dir}/BlockPremat_{window_size_gp}_'
+                             f'{(depth_idx+1)*10:03d}{sub}.pkl', 'wb'))
