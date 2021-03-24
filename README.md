@@ -1,4 +1,4 @@
-# Argo_Salinity
+# Argo_code_JS
 
 Argo code by Addison Hu, now updated by Jacopo Sala. The original code by Addison is also shared on GitHub. Main changes from that include generalizing the code to run with any variable + plotting some new figures (e.g. to display data availability). Upcoming version will include changes to create/select input data.
 
