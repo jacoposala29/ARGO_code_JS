@@ -10,7 +10,7 @@ import os
 import sys
 sys.path.append('./implementations/')
 
-from TC_and_TS_define_param import grid_lower, grid_upper, grid_stride, folder2use, depth_layers, var2use
+from TC_and_TS_define_param import grid_lower, grid_upper, grid_stride, folder2use, depth_layers, var2use, clim
 
 from implementation_tools import (
     grid,
@@ -62,9 +62,9 @@ else: # single level
 for sub in sub_list:
     print(sub)
     prefix = '_LOOCV'
-    lamb = 'AdaptInflate'
-    block = pkl.load(open(f'{input_dir}/TPS{prefix}_Preds_Block_{lamb}_Hur.pkl', 'rb'))
-    bmask = pkl.load(open(f'{input_dir}/TPS{prefix}_Mask_Block_{lamb}_Hur.pkl', 'rb'))
+    lamb_choice = 'Custom'
+    block = pkl.load(open(f'{input_dir}/TPS{prefix}_Preds_Block_{lamb_choice}_{sub}.pkl', 'rb'))
+    bmask = pkl.load(open(f'{input_dir}/TPS{prefix}_Mask_Block_{lamb_choice}_{sub}.pkl', 'rb'))
     
     
     idx = 0
@@ -72,7 +72,7 @@ for sub in sub_list:
     mat1 = preds_block.copy()
     mat1[~bmask[:, idx].astype(bool)] = np.nan
     
-    idx = 5
+    idx = 4
     preds_block = block[:, idx]
     mat2 = preds_block.copy()
     mat2[~bmask[:, idx].astype(bool)] = np.nan
@@ -82,7 +82,6 @@ for sub in sub_list:
     mat3 = preds_block.copy()
     mat3[~bmask[:, idx].astype(bool)] = np.nan
     
-    clim=2 #plot_config.clim
     bounds_x1 = (-8, +8)
     bounds_x2 = (-2, +20)
     shape = (100, 400)

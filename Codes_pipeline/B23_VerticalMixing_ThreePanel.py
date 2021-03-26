@@ -33,8 +33,8 @@ ypos = -0.3
 
 prefix = '_LOOCV'
 lamb = 'AdaptInflate'
-block = pkl.load(open(f'{input_dir}/TPS{prefix}_Preds_Block_{lamb}_Hur.pkl', 'rb'))
-bmask = pkl.load(open(f'{input_dir}/TPS{prefix}_Mask_Block_{lamb}_Hur.pkl', 'rb'))
+block = pkl.load(open(f'{input_dir}/TPS_LOOCV_Preds_NoRew_{lamb_choice}_{sub}.pkl', 'rb'))
+bmask = pkl.load(open(f'{input_dir}/TPS_LOOCV_Preds_NoRew_{lamb_choice}_{sub}.pkl', 'rb'))
 
 
 idx = 0

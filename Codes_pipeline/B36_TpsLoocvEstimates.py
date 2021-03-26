@@ -33,7 +33,6 @@ grid_stride = int(grid_stride)
 DEPTH_IDX = int((grid_end - grid_start)/ grid_stride+1)
 
 data_dir = folder2use + '/Outputs'
-results_dir = folder2use + '/Outputs'
 window_size_gp = 5
 stage = 'adj'
 
@@ -181,14 +180,14 @@ for sub in sub_list:
         S = df['var'].apply(lambda x: x[depth_idx]).values
         W = 1 / S
         if sub == 'All':
-            block_S = pkl.load(open(f'{results_dir}/BlockCovmat_{window_size_gp}_'
+            block_S = pkl.load(open(f'{data_dir}/BlockCovmat_{window_size_gp}_'
                                     f'{(depth_idx+1)*10:03d}.pkl', 'rb'))
-            block_W = pkl.load(open(f'{results_dir}/BlockPremat_{window_size_gp}_'
+            block_W = pkl.load(open(f'{data_dir}/BlockPremat_{window_size_gp}_'
                                     f'{(depth_idx+1)*10:03d}.pkl', 'rb'))
         else:
-            block_S = pkl.load(open(f'{results_dir}/BlockCovmat_{window_size_gp}_'
+            block_S = pkl.load(open(f'{data_dir}/BlockCovmat_{window_size_gp}_'
                                     f'{(depth_idx+1)*10:03d}{sub}.pkl', 'rb'))
-            block_W = pkl.load(open(f'{results_dir}/BlockPremat_{window_size_gp}_'
+            block_W = pkl.load(open(f'{data_dir}/BlockPremat_{window_size_gp}_'
                                     f'{(depth_idx+1)*10:03d}{sub}.pkl', 'rb'))
         
         
